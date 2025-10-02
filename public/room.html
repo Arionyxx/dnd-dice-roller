@@ -305,6 +305,34 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
 
+        .roll-button.cooldown {
+            position: relative;
+            pointer-events: none;
+        }
+
+        .roll-button.cooldown::after {
+            content: attr(data-cooldown);
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(139, 37, 0, 0.95);
+            color: #f4e4c1;
+            padding: 5px 15px;
+            border-radius: 5px;
+            border: 2px solid #d4af37;
+            font-size: 0.7em;
+            white-space: nowrap;
+            animation: fadeInOut 1s ease;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+            20% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            80% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+        }
+
         .dice-label {
             text-align: center;
             font-size: 1.2em;
@@ -547,11 +575,6 @@
         </div>
     </div>
 
-    <!-- Sound effects -->
-    <audio id="roll-sound" preload="auto">
-        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1fLMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTKN0fPTgjMGHm7A7+OZTA0PTKLP8+t0IQU9ltv13pxKCRRrufHmq1oNBz2S0fPQezgGJXXE7+ecVhELTKXh86pmGwU5j9TzzYEyBSZ1xO/mnlgRCkmi3/PfdSgFMY7T8tqCNAYocsTu55xYEgpJoN/04HYpBjCN0fPagzYGJ3LE7+KbWhMKR6Dd9N9zJwYxjdDy3IM1Byd0xO/hmloVCkee3fTfdykFMo7R8tmENgYncMPw4ptbFglHnt302ngrBzKO0fPZhDcGKHDC8OOZWhgJRZ3c8911KwcyjtHz2oQ4Byh8" type="audio/wav">
-    </audio>
-
     <script src="/socket.io/socket.io.js"></script>
     <script>
         // Check authentication
@@ -591,7 +614,6 @@
         const userList = document.getElementById('user-list');
         const activityFeed = document.getElementById('activity-feed');
         const inviteBtn = document.getElementById('invite-btn');
-        const rollSound = document.getElementById('roll-sound');
 
         // Dice selection
         diceButtons.forEach(button => {
@@ -630,9 +652,6 @@
                         const result = Math.floor(Math.random() * selectedDice) + 1;
                         diceElement.textContent = result;
                         diceElement.classList.remove('rolling');
-
-                        // Play sound
-                        rollSound.play().catch(() => {});
 
                         // Check for critical rolls
                         let message = `You rolled a ${result}!`;
@@ -756,14 +775,15 @@
         }
 
         function showCooldownNotice(seconds) {
-            const notice = document.createElement('div');
-            notice.className = 'cooldown-notice';
-            notice.textContent = `⏳ Wait ${seconds} second${seconds > 1 ? 's' : ''}!`;
-            document.body.appendChild(notice);
+            rollButton.classList.add('cooldown');
+            rollButton.setAttribute('data-cooldown', `⏳ Wait ${seconds}s`);
+            rollButton.disabled = true;
 
             setTimeout(() => {
-                notice.remove();
-            }, 1000);
+                rollButton.classList.remove('cooldown');
+                rollButton.removeAttribute('data-cooldown');
+                rollButton.disabled = false;
+            }, seconds * 1000);
         }
 
         window.kickUser = (targetUsername) => {
