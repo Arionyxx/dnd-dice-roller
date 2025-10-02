@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Browse the complete items database with detailed effects, unlock conditions, and item pool information.">
+    <meta name="keywords" content="binding of isaac, items, active items, passive items, trinkets">
+    <meta name="author" content="Isaac Compendium">
+    <meta name="theme-color" content="#1a0f0a">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Items Database - Isaac Compendium">
+    <meta property="og:description" content="Complete catalog of items with effects and unlock conditions.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://isaac-compendium.example.com/items.html">
+    <meta property="og:image" content="/assets/img/social-card-1200x630.png">
+    <title>Items - Isaac Compendium</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16.png">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="canonical" href="https://isaac-compendium.example.com/items.html">
+    <link rel="stylesheet" href="/assets/css/normalize.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/theme.css">
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <header class="site-header" role="banner">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="/" aria-label="Isaac Compendium Home">
+                        <img src="/assets/img/placeholders/logo.svg" alt="" width="40" height="40">
+                        <span>Isaac Compendium</span>
+                    </a>
+                </div>
+                <nav class="main-nav" role="navigation" aria-label="Main navigation">
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/items.html" class="active" aria-current="page">Items</a></li>
+                        <li><a href="/characters.html">Characters</a></li>
+                        <li><a href="/bosses.html">Bosses</a></li>
+                        <li><a href="/synergies.html">Synergies</a></li>
+                        <li><a href="/guides.html">Guides</a></li>
+                        <li><a href="/about.html">About</a></li>
+                    </ul>
+                </nav>
+                <div class="header-actions">
+                    <a href="/search.html" class="btn-icon" aria-label="Search">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM19 19l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                    <button id="theme-toggle" class="btn-icon" aria-label="Toggle dark mode">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M10 2v2M10 16v2M3.93 3.93l1.41 1.41M14.66 14.66l1.41 1.41M2 10h2M16 10h2M3.93 16.07l1.41-1.41M14.66 5.34l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+        <div class="container">
+            <ol>
+                <li><a href="/">Home</a></li>
+                <li aria-current="page">Items</li>
+            </ol>
+        </div>
+    </nav>
+    <main id="main-content" role="main">
+        <div class="container">
+            <div class="page-header">
+                <h1>Items Database</h1>
+                <p>Browse and filter through all items in the compendium</p>
+            </div>
+            <div class="filters-panel" role="region" aria-label="Filters">
+                <div class="filters-row">
+                    <div class="filter-group">
+                        <label for="filter-search">Search:</label>
+                        <input type="search" id="filter-search" placeholder="Search by name or effect..." class="filter-input">
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-type">Type:</label>
+                        <select id="filter-type" class="filter-select">
+                            <option value="">All Types</option>
+                            <option value="passive">Passive</option>
+                            <option value="active">Active</option>
+                            <option value="trinket">Trinket</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-rarity">Rarity:</label>
+                        <select id="filter-rarity" class="filter-select">
+                            <option value="">All Rarities</option>
+                            <option value="common">Common</option>
+                            <option value="uncommon">Uncommon</option>
+                            <option value="rare">Rare</option>
+                            <option value="legendary">Legendary</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-sort">Sort:</label>
+                        <select id="filter-sort" class="filter-select">
+                            <option value="name">Name (A-Z)</option>
+                            <option value="-name">Name (Z-A)</option>
+                            <option value="rarity">Rarity</option>
+                            <option value="type">Type</option>
+                        </select>
+                    </div>
+                    <button type="button" id="clear-filters" class="btn btn-secondary btn-small">Clear Filters</button>
+                </div>
+            </div>
+            <div id="items-count" class="results-count" role="status" aria-live="polite">
+                Loading items...
+            </div>
+            <div id="items-grid" class="items-grid" role="region" aria-label="Items list">
+                <div class="loading-state">Loading items...</div>
+            </div>
+        </div>
+    </main>
+    <div id="item-modal" class="modal" role="dialog" aria-labelledby="modal-title" aria-modal="true" hidden>
+        <div class="modal-overlay" data-modal-close></div>
+        <div class="modal-content">
+            <button type="button" class="modal-close" data-modal-close aria-label="Close modal">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+    <footer class="site-footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Isaac Compendium</h3>
+                    <p>A comprehensive, community-driven guide for roguelike enthusiasts.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="/items.html">Items</a></li>
+                        <li><a href="/characters.html">Characters</a></li>
+                        <li><a href="/bosses.html">Bosses</a></li>
+                        <li><a href="/synergies.html">Synergies</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="/guides.html">Guides</a></li>
+                        <li><a href="/search.html">Search</a></li>
+                        <li><a href="/about.html">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="/LICENSE">License</a></li>
+                        <li><a href="/.well-known/security.txt">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Isaac Compendium. Released under MIT License.</p>
+                <p>Fan-made guide. Not affiliated with official game developers.</p>
+            </div>
+        </div>
+    </footer>
+    <script type="module" src="/assets/js/utils.js"></script>
+    <script type="module" src="/assets/js/filters.js"></script>
+    <script src="/assets/js/theme-toggle.js"></script>
+    <script src="/assets/js/register-sw.js"></script>
+    <script src="/assets/js/analytics.js"></script>
+</body>
+</html>

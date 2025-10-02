@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Tavern Dice</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cinzel', serif;
+            background:
+                radial-gradient(ellipse at top, rgba(139, 69, 19, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom, rgba(0, 0, 0, 0.5) 0%, transparent 50%),
+                linear-gradient(180deg, #1a0f0a 0%, #2d1810 50%, #1a0f0a 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(139, 69, 19, 0.03) 2px,
+                    rgba(139, 69, 19, 0.03) 4px
+                );
+            pointer-events: none;
+        }
+
+        .header {
+            max-width: 1200px;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .user-info {
+            color: #d4af37;
+            font-size: 1.1em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .room-info {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .room-code {
+            background: linear-gradient(145deg, #654321 0%, #4a3219 100%);
+            color: #f4e4c1;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: 2px solid #8b6914;
+            font-family: 'MedievalSharp', serif;
+            font-size: 1.1em;
+        }
+
+        .logout-btn {
+            background: linear-gradient(145deg, #8b2500 0%, #5a1800 100%);
+            color: #f4e4c1;
+            border: 2px solid #d4af37;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            border-color: #f4e4c1;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .container {
+            background:
+                linear-gradient(145deg, rgba(101, 67, 33, 0.95) 0%, rgba(58, 38, 20, 0.95) 100%);
+            border: 3px solid #8b6914;
+            border-radius: 5px;
+            padding: 40px;
+            box-shadow:
+                0 0 40px rgba(139, 105, 20, 0.4),
+                inset 0 0 60px rgba(0, 0, 0, 0.3),
+                0 20px 60px rgba(0, 0, 0, 0.6);
+            position: relative;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px solid rgba(139, 105, 20, 0.3);
+            pointer-events: none;
+        }
+
+        h1 {
+            text-align: center;
+            color: #f4e4c1;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-family: 'MedievalSharp', serif;
+            text-shadow:
+                2px 2px 4px rgba(0, 0, 0, 0.8),
+                0 0 20px rgba(212, 175, 55, 0.5);
+            letter-spacing: 3px;
+        }
+
+        .dice-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .dice-button {
+            background: linear-gradient(145deg, #654321 0%, #4a3219 100%);
+            color: #d4af37;
+            border: 2px solid #8b6914;
+            padding: 20px 10px;
+            border-radius: 3px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow:
+                0 4px 8px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(212, 175, 55, 0.2);
+            font-family: 'Cinzel', serif;
+        }
+
+        .dice-button:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 6px 12px rgba(0, 0, 0, 0.7),
+                0 0 15px rgba(212, 175, 55, 0.3),
+                inset 0 1px 0 rgba(212, 175, 55, 0.3);
+            border-color: #d4af37;
+        }
+
+        .dice-button.selected {
+            background: linear-gradient(145deg, #8b6914 0%, #654321 100%);
+            border-color: #d4af37;
+            color: #f4e4c1;
+            box-shadow:
+                0 0 20px rgba(212, 175, 55, 0.6),
+                inset 0 0 10px rgba(212, 175, 55, 0.3);
+            transform: scale(1.05);
+        }
+
+        .dice-display {
+            text-align: center;
+            margin: 40px 0;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dice {
+            width: 150px;
+            height: 150px;
+            background: #f4e8d8;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 4em;
+            font-weight: bold;
+            color: #1a0f0a;
+            box-shadow:
+                0 15px 35px rgba(0, 0, 0, 0.7),
+                inset 2px 2px 4px rgba(0, 0, 0, 0.2),
+                inset -2px -2px 4px rgba(255, 255, 255, 0.4);
+            margin-bottom: 20px;
+            border: 1px solid #c4b5a0;
+            font-family: 'MedievalSharp', serif;
+            position: relative;
+        }
+
+        .dice::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 6px;
+            pointer-events: none;
+        }
+
+        .dice.rolling {
+            animation: roll 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes roll {
+            0%, 100% {
+                transform: rotate(0deg) scale(1);
+            }
+            15% {
+                transform: rotate(120deg) scale(1.15) translateY(-20px);
+            }
+            30% {
+                transform: rotate(240deg) scale(0.9) translateY(10px);
+            }
+            45% {
+                transform: rotate(360deg) scale(1.1) translateY(-15px);
+            }
+            60% {
+                transform: rotate(480deg) scale(0.95) translateY(5px);
+            }
+            75% {
+                transform: rotate(600deg) scale(1.05) translateY(-5px);
+            }
+            90% {
+                transform: rotate(720deg) scale(0.98);
+            }
+        }
+
+        .result-text {
+            font-size: 1.3em;
+            color: #f4e4c1;
+            font-weight: bold;
+            margin-top: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .roll-button {
+            background: linear-gradient(145deg, #8b2500 0%, #5a1800 100%);
+            color: #f4e4c1;
+            border: 3px solid #d4af37;
+            padding: 20px 60px;
+            border-radius: 5px;
+            font-size: 1.5em;
+            font-weight: bold;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+            box-shadow:
+                0 8px 20px rgba(0, 0, 0, 0.7),
+                inset 0 2px 0 rgba(212, 175, 55, 0.3),
+                0 0 30px rgba(139, 37, 0, 0.4);
+            transition: all 0.3s ease;
+            font-family: 'MedievalSharp', serif;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .roll-button:hover {
+            transform: translateY(-3px);
+            box-shadow:
+                0 12px 30px rgba(0, 0, 0, 0.8),
+                inset 0 2px 0 rgba(212, 175, 55, 0.4),
+                0 0 40px rgba(212, 175, 55, 0.5);
+            border-color: #f4e4c1;
+        }
+
+        .roll-button:active {
+            transform: translateY(-1px);
+        }
+
+        .roll-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .dice-label {
+            text-align: center;
+            font-size: 1.2em;
+            color: #d4af37;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-family: 'Cinzel', serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .users-panel, .activity-panel {
+            background:
+                linear-gradient(145deg, rgba(101, 67, 33, 0.95) 0%, rgba(58, 38, 20, 0.95) 100%);
+            border: 3px solid #8b6914;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow:
+                0 0 40px rgba(139, 105, 20, 0.4),
+                inset 0 0 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .users-panel::before, .activity-panel::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 1px solid rgba(139, 105, 20, 0.3);
+            pointer-events: none;
+        }
+
+        .panel-title {
+            color: #d4af37;
+            font-family: 'MedievalSharp', serif;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            text-align: center;
+        }
+
+        .user-list {
+            list-style: none;
+        }
+
+        .user-item {
+            color: #f4e4c1;
+            padding: 8px 12px;
+            margin-bottom: 5px;
+            background: rgba(26, 15, 10, 0.4);
+            border-radius: 3px;
+            border-left: 3px solid #d4af37;
+        }
+
+        .activity-feed {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .activity-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            background: rgba(26, 15, 10, 0.4);
+            border-radius: 3px;
+            border-left: 3px solid #8b6914;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .activity-item.critical {
+            border-left-color: #d4af37;
+            background: rgba(139, 105, 20, 0.2);
+        }
+
+        .activity-item.fail {
+            border-left-color: #8b0000;
+            background: rgba(139, 0, 0, 0.2);
+        }
+
+        .activity-username {
+            color: #d4af37;
+            font-weight: bold;
+        }
+
+        .activity-result {
+            color: #f4e4c1;
+            font-size: 0.9em;
+        }
+
+        .activity-feed::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .activity-feed::-webkit-scrollbar-track {
+            background: rgba(26, 15, 10, 0.5);
+            border-radius: 4px;
+        }
+
+        .activity-feed::-webkit-scrollbar-thumb {
+            background: #8b6914;
+            border-radius: 4px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="user-info">
+            ⚔ Adventurer: <strong id="username-display"></strong>
+        </div>
+        <div class="room-info">
+            <div class="room-code">
+                Room: <span id="room-code">TAVERN-<span id="room-id"></span></span>
+            </div>
+            <button class="logout-btn" id="logout-btn">Leave Tavern</button>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="container">
+            <h1>⚔ The Tavern Dice ⚔</h1>
+
+            <div class="dice-selector">
+                <button class="dice-button" data-sides="4">D4</button>
+                <button class="dice-button selected" data-sides="6">D6</button>
+                <button class="dice-button" data-sides="8">D8</button>
+                <button class="dice-button" data-sides="10">D10</button>
+                <button class="dice-button" data-sides="12">D12</button>
+                <button class="dice-button" data-sides="20">D20</button>
+            </div>
+
+            <div class="dice-display">
+                <div class="dice-label">Selected: D6</div>
+                <div class="dice" id="dice">?</div>
+                <div class="result-text" id="result">Roll the dice!</div>
+            </div>
+
+            <button class="roll-button" id="rollButton">ROLL!</button>
+        </div>
+
+        <div class="sidebar">
+            <div class="users-panel">
+                <h3 class="panel-title">Party Members</h3>
+                <ul class="user-list" id="user-list"></ul>
+            </div>
+
+            <div class="activity-panel">
+                <h3 class="panel-title">Recent Rolls</h3>
+                <div class="activity-feed" id="activity-feed"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        // Check authentication
+        const token = localStorage.getItem('token');
+        const username = localStorage.getItem('username');
+
+        if (!token || !username) {
+            window.location.href = '/';
+        }
+
+        document.getElementById('username-display').textContent = username;
+
+        // Generate or get room ID
+        const urlParams = new URLSearchParams(window.location.search);
+        let roomId = urlParams.get('room');
+        if (!roomId) {
+            roomId = Math.random().toString(36).substring(2, 8).toUpperCase();
+            window.history.replaceState({}, '', `?room=${roomId}`);
+        }
+        document.getElementById('room-id').textContent = roomId;
+
+        // Socket.IO connection
+        const socket = io();
+
+        socket.emit('join-room', { roomId, username });
+
+        let selectedDice = 6;
+        let isRolling = false;
+
+        const diceButtons = document.querySelectorAll('.dice-button');
+        const diceElement = document.getElementById('dice');
+        const resultElement = document.getElementById('result');
+        const rollButton = document.getElementById('rollButton');
+        const diceLabel = document.querySelector('.dice-label');
+        const userList = document.getElementById('user-list');
+        const activityFeed = document.getElementById('activity-feed');
+
+        // Dice selection
+        diceButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                if (isRolling) return;
+
+                diceButtons.forEach(btn => btn.classList.remove('selected'));
+                button.classList.add('selected');
+                selectedDice = parseInt(button.dataset.sides);
+                diceLabel.textContent = `Selected: D${selectedDice}`;
+                diceElement.textContent = '?';
+                resultElement.textContent = 'Roll the dice!';
+            });
+        });
+
+        // Roll animation and logic
+        rollButton.addEventListener('click', () => {
+            if (isRolling) return;
+
+            isRolling = true;
+            rollButton.disabled = true;
+            diceElement.classList.add('rolling');
+            resultElement.textContent = 'Rolling...';
+
+            // Animate through random numbers
+            let count = 0;
+            const interval = setInterval(() => {
+                diceElement.textContent = Math.floor(Math.random() * selectedDice) + 1;
+                count++;
+
+                if (count >= 10) {
+                    clearInterval(interval);
+
+                    // Final result
+                    setTimeout(() => {
+                        const result = Math.floor(Math.random() * selectedDice) + 1;
+                        diceElement.textContent = result;
+                        diceElement.classList.remove('rolling');
+
+                        // Check for critical rolls
+                        let message = `You rolled a ${result}!`;
+                        if (result === selectedDice) {
+                            message = `🎉 CRITICAL! You rolled a ${result}! 🎉`;
+                        } else if (result === 1) {
+                            message = `💀 Critical Fail! You rolled a 1! 💀`;
+                        }
+
+                        resultElement.textContent = message;
+
+                        // Emit to room
+                        socket.emit('roll-dice', {
+                            roomId,
+                            diceType: selectedDice,
+                            result,
+                            username
+                        });
+
+                        isRolling = false;
+                        rollButton.disabled = false;
+                    }, 300);
+                }
+            }, 60);
+        });
+
+        // Socket events
+        socket.on('user-joined', ({ username: joinedUser, users }) => {
+            updateUserList(users);
+            if (joinedUser !== username) {
+                addActivity(`${joinedUser} joined the tavern`, 'join');
+            }
+        });
+
+        socket.on('user-left', ({ username: leftUser, users }) => {
+            updateUserList(users);
+            addActivity(`${leftUser} left the tavern`, 'leave');
+        });
+
+        socket.on('dice-rolled', ({ username: roller, diceType, result }) => {
+            const isCritical = result === diceType;
+            const isFail = result === 1;
+            const type = isCritical ? 'critical' : (isFail ? 'fail' : 'normal');
+
+            let message = `rolled D${diceType} → ${result}`;
+            if (isCritical) message = `🎉 ${message} (CRITICAL!)`;
+            if (isFail) message = `💀 ${message} (FAIL!)`;
+
+            addActivity(message, type, roller);
+        });
+
+        socket.on('roll-history', (rolls) => {
+            rolls.forEach(roll => {
+                const isCritical = roll.result === roll.diceType;
+                const isFail = roll.result === 1;
+                const type = isCritical ? 'critical' : (isFail ? 'fail' : 'normal');
+
+                let message = `rolled D${roll.diceType} → ${roll.result}`;
+                if (isCritical) message = `🎉 ${message} (CRITICAL!)`;
+                if (isFail) message = `💀 ${message} (FAIL!)`;
+
+                addActivity(message, type, roll.username, false);
+            });
+        });
+
+        function updateUserList(users) {
+            userList.innerHTML = users.map(user =>
+                `<li class="user-item">${user === username ? '👤 ' : ''}${user}</li>`
+            ).join('');
+        }
+
+        function addActivity(message, type, user = null, prepend = true) {
+            const item = document.createElement('div');
+            item.className = `activity-item ${type === 'critical' ? 'critical' : type === 'fail' ? 'fail' : ''}`;
+
+            if (user) {
+                item.innerHTML = `
+                    <span class="activity-username">${user}</span>
+                    <div class="activity-result">${message}</div>
+                `;
+            } else {
+                item.innerHTML = `<div class="activity-result">${message}</div>`;
+            }
+
+            if (prepend) {
+                activityFeed.insertBefore(item, activityFeed.firstChild);
+            } else {
+                activityFeed.appendChild(item);
+            }
+
+            // Keep only last 50 items
+            while (activityFeed.children.length > 50) {
+                activityFeed.removeChild(activityFeed.lastChild);
+            }
+        }
+
+        // Logout
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            localStorage.removeItem('token');
+            localStorage.removeItem('username');
+            window.location.href = '/';
+        });
+
+        // Allow Enter key to roll
+        document.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !isRolling) {
+                rollButton.click();
+            }
+        });
+    </script>
+</body>
+</html>

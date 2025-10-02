@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Comprehensive character guide with stats, starting items, and strategies for all playable characters.">
+    <meta name="keywords" content="binding of isaac, characters, stats, starting items, unlock conditions">
+    <meta name="author" content="Isaac Compendium">
+    <meta name="theme-color" content="#1a0f0a">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Characters Guide - Isaac Compendium">
+    <meta property="og:description" content="Master all playable characters with detailed stats and strategies.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://isaac-compendium.example.com/characters.html">
+    <meta property="og:image" content="/assets/img/social-card-1200x630.png">
+    <title>Characters - Isaac Compendium</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16.png">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="canonical" href="https://isaac-compendium.example.com/characters.html">
+    <link rel="stylesheet" href="/assets/css/normalize.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/theme.css">
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <header class="site-header" role="banner">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="/" aria-label="Isaac Compendium Home">
+                        <img src="/assets/img/placeholders/logo.svg" alt="" width="40" height="40">
+                        <span>Isaac Compendium</span>
+                    </a>
+                </div>
+                <nav class="main-nav" role="navigation" aria-label="Main navigation">
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/items.html">Items</a></li>
+                        <li><a href="/characters.html" class="active" aria-current="page">Characters</a></li>
+                        <li><a href="/bosses.html">Bosses</a></li>
+                        <li><a href="/synergies.html">Synergies</a></li>
+                        <li><a href="/guides.html">Guides</a></li>
+                        <li><a href="/about.html">About</a></li>
+                    </ul>
+                </nav>
+                <div class="header-actions">
+                    <a href="/search.html" class="btn-icon" aria-label="Search">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM19 19l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                    <button id="theme-toggle" class="btn-icon" aria-label="Toggle dark mode">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M10 2v2M10 16v2M3.93 3.93l1.41 1.41M14.66 14.66l1.41 1.41M2 10h2M16 10h2M3.93 16.07l1.41-1.41M14.66 5.34l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+        <div class="container">
+            <ol>
+                <li><a href="/">Home</a></li>
+                <li aria-current="page">Characters</li>
+            </ol>
+        </div>
+    </nav>
+    <main id="main-content" role="main">
+        <div class="container">
+            <div class="page-header">
+                <h1>Characters Guide</h1>
+                <p>Master all playable characters with detailed stats and strategies</p>
+            </div>
+            <div id="characters-grid" class="characters-grid" role="region" aria-label="Characters list">
+                <div class="loading-state">Loading characters...</div>
+            </div>
+        </div>
+    </main>
+    <footer class="site-footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Isaac Compendium</h3>
+                    <p>A comprehensive, community-driven guide for roguelike enthusiasts.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="/items.html">Items</a></li>
+                        <li><a href="/characters.html">Characters</a></li>
+                        <li><a href="/bosses.html">Bosses</a></li>
+                        <li><a href="/synergies.html">Synergies</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="/guides.html">Guides</a></li>
+                        <li><a href="/search.html">Search</a></li>
+                        <li><a href="/about.html">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="/LICENSE">License</a></li>
+                        <li><a href="/.well-known/security.txt">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Isaac Compendium. Released under MIT License.</p>
+                <p>Fan-made guide. Not affiliated with official game developers.</p>
+            </div>
+        </div>
+    </footer>
+    <script type="module">
+        import { loadJSON, qs, escapeHTML } from '/assets/js/utils.js';
+
+        async function renderCharacters() {
+            try {
+                const characters = await loadJSON('/data/characters.json');
+                const grid = qs('#characters-grid');
+
+                if (!characters || characters.length === 0) {
+                    grid.innerHTML = '<div class="empty-state">No characters found.</div>';
+                    return;
+                }
+
+                grid.innerHTML = characters.map(char => `
+                    <article class="character-card">
+                        <div class="character-image">
+                            <img src="${escapeHTML(char.image || '/assets/img/placeholders/character.svg')}"
+                                 alt="${escapeHTML(char.name)}"
+                                 width="120"
+                                 height="120">
+                        </div>
+                        <div class="character-info">
+                            <h2>${escapeHTML(char.name)}</h2>
+                            <div class="character-stats">
+                                <div class="stat-group">
+                                    <span class="stat-label">Health:</span>
+                                    <span class="stat-value">${escapeHTML(char.stats.health)}</span>
+                                </div>
+                                <div class="stat-group">
+                                    <span class="stat-label">Speed:</span>
+                                    <span class="stat-value">${escapeHTML(char.stats.speed)}</span>
+                                </div>
+                                <div class="stat-group">
+                                    <span class="stat-label">Damage:</span>
+                                    <span class="stat-value">${escapeHTML(char.stats.damage)}</span>
+                                </div>
+                                <div class="stat-group">
+                                    <span class="stat-label">Range:</span>
+                                    <span class="stat-value">${escapeHTML(char.stats.range)}</span>
+                                </div>
+                                <div class="stat-group">
+                                    <span class="stat-label">Shot Speed:</span>
+                                    <span class="stat-value">${escapeHTML(char.stats.shotSpeed)}</span>
+                                </div>
+                                <div class="stat-group">
+                                    <span class="stat-label">Luck:</span>
+                                    <span class="stat-value">${escapeHTML(char.stats.luck)}</span>
+                                </div>
+                            </div>
+                            ${char.startingItems && char.startingItems.length > 0 ? `
+                                <div class="starting-items">
+                                    <strong>Starting Items:</strong>
+                                    <ul>
+                                        ${char.startingItems.map(item => `<li>${escapeHTML(item)}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            ` : ''}
+                            ${char.unlock ? `
+                                <div class="unlock-condition">
+                                    <strong>Unlock:</strong> ${escapeHTML(char.unlock)}
+                                </div>
+                            ` : ''}
+                            <p class="character-details">${escapeHTML(char.details)}</p>
+                        </div>
+                    </article>
+                `).join('');
+            } catch (error) {
+                console.error('Failed to load characters:', error);
+                qs('#characters-grid').innerHTML = '<div class="error-state">Failed to load characters. Please try again later.</div>';
+            }
+        }
+
+        renderCharacters();
+    </script>
+    <script src="/assets/js/theme-toggle.js"></script>
+    <script src="/assets/js/register-sw.js"></script>
+    <script src="/assets/js/analytics.js"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+{
+  "name": "Isaac Compendium - Complete Roguelike Guide",
+  "short_name": "Isaac Compendium",
+  "description": "A comprehensive guide for items, characters, bosses, synergies, and strategies",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a0f0a",
+  "theme_color": "#8b4513",
+  "orientation": "any",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/assets/img/favicon-32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/img/favicon-16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/img/maskable-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["games", "reference", "entertainment"],
+  "shortcuts": [
+    {
+      "name": "Items Database",
+      "short_name": "Items",
+      "description": "Browse all items",
+      "url": "/items.html",
+      "icons": [{ "src": "/assets/img/placeholders/item.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "Characters Guide",
+      "short_name": "Characters",
+      "description": "View all characters",
+      "url": "/characters.html",
+      "icons": [{ "src": "/assets/img/placeholders/character.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "Boss Strategies",
+      "short_name": "Bosses",
+      "description": "Learn boss tactics",
+      "url": "/bosses.html",
+      "icons": [{ "src": "/assets/img/placeholders/boss.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "Search",
+      "short_name": "Search",
+      "description": "Search everything",
+      "url": "/search.html",
+      "icons": [{ "src": "/assets/img/placeholders/dice.svg", "sizes": "96x96" }]
+    }
+  ],
+  "lang": "en-US",
+  "dir": "ltr"
+}

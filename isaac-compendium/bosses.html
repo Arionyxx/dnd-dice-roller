@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Boss strategies, attack patterns, and weaknesses for all encounters in the game.">
+    <title>Bosses - Isaac Compendium</title>
+    <link rel="stylesheet" href="/assets/css/normalize.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/theme.css">
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <header class="site-header" role="banner">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="/" aria-label="Isaac Compendium Home">
+                        <img src="/assets/img/placeholders/logo.svg" alt="" width="40" height="40">
+                        <span>Isaac Compendium</span>
+                    </a>
+                </div>
+                <nav class="main-nav" role="navigation" aria-label="Main navigation">
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/items.html">Items</a></li>
+                        <li><a href="/characters.html">Characters</a></li>
+                        <li><a href="/bosses.html" class="active" aria-current="page">Bosses</a></li>
+                        <li><a href="/synergies.html">Synergies</a></li>
+                        <li><a href="/guides.html">Guides</a></li>
+                        <li><a href="/about.html">About</a></li>
+                    </ul>
+                </nav>
+                <div class="header-actions">
+                    <a href="/search.html" class="btn-icon" aria-label="Search"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM19 19l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                    <button id="theme-toggle" class="btn-icon" aria-label="Toggle dark mode"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 2v2M10 16v2M3.93 3.93l1.41 1.41M14.66 14.66l1.41 1.41M2 10h2M16 10h2M3.93 16.07l1.41-1.41M14.66 5.34l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="2"/></svg></button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <nav class="breadcrumb" aria-label="Breadcrumb"><div class="container"><ol><li><a href="/">Home</a></li><li aria-current="page">Bosses</li></ol></div></nav>
+    <main id="main-content" role="main">
+        <div class="container">
+            <div class="page-header">
+                <h1>Boss Strategies</h1>
+                <p>Attack patterns, weaknesses, and winning strategies for every boss</p>
+            </div>
+            <div id="bosses-list" class="bosses-list" role="region" aria-label="Bosses list"><div class="loading-state">Loading bosses...</div></div>
+        </div>
+    </main>
+    <footer class="site-footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section"><h3>Isaac Compendium</h3><p>A comprehensive, community-driven guide for roguelike enthusiasts.</p></div>
+                <div class="footer-section"><h4>Navigation</h4><ul><li><a href="/items.html">Items</a></li><li><a href="/characters.html">Characters</a></li><li><a href="/bosses.html">Bosses</a></li><li><a href="/synergies.html">Synergies</a></li></ul></div>
+                <div class="footer-section"><h4>Resources</h4><ul><li><a href="/guides.html">Guides</a></li><li><a href="/search.html">Search</a></li><li><a href="/about.html">About</a></li></ul></div>
+                <div class="footer-section"><h4>Legal</h4><ul><li><a href="/LICENSE">License</a></li><li><a href="/.well-known/security.txt">Security</a></li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2025 Isaac Compendium. Released under MIT License.</p><p>Fan-made guide. Not affiliated with official game developers.</p></div>
+        </div>
+    </footer>
+    <script type="module">
+        import { loadJSON, qs, escapeHTML } from '/assets/js/utils.js';
+        async function renderBosses() {
+            try {
+                const bosses = await loadJSON('/data/bosses.json');
+                const list = qs('#bosses-list');
+                if (!bosses || bosses.length === 0) { list.innerHTML = '<div class="empty-state">No bosses found.</div>'; return; }
+                list.innerHTML = bosses.map(boss => `<article class="boss-card"><div class="boss-header"><div class="boss-image"><img src="${escapeHTML(boss.image || '/assets/img/placeholders/boss.svg')}" alt="${escapeHTML(boss.name)}" width="100" height="100"></div><div class="boss-title-area"><h2>${escapeHTML(boss.name)}</h2><div class="boss-meta"><span class="badge badge-chapter">${escapeHTML(boss.chapter)}</span><span class="badge badge-difficulty">Difficulty: ${escapeHTML(boss.difficulty)}/5</span></div></div></div><div class="boss-content">${boss.phases && boss.phases.length > 0 ? `<div class="phases-section"><h3>Attack Phases</h3><ul>${boss.phases.map(phase => `<li>${escapeHTML(phase)}</li>`).join('')}</ul></div>` : ''}${boss.patterns && boss.patterns.length > 0 ? `<div class="patterns-section"><h3>Attack Patterns</h3><ul>${boss.patterns.map(pattern => `<li>${escapeHTML(pattern)}</li>`).join('')}</ul></div>` : ''}${boss.strategy ? `<div class="strategy-section"><h3>Strategy</h3><p>${escapeHTML(boss.strategy)}</p></div>` : ''}</div></article>`).join('');
+            } catch (error) { console.error('Failed to load bosses:', error); qs('#bosses-list').innerHTML = '<div class="error-state">Failed to load bosses.</div>'; }
+        }
+        renderBosses();
+    </script>
+    <script src="/assets/js/theme-toggle.js"></script>
+    <script src="/assets/js/register-sw.js"></script>
+    <script src="/assets/js/analytics.js"></script>
+</body>
+</html>

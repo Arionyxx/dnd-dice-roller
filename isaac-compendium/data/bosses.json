@@ -1,0 +1,226 @@
+[
+  {
+    "id": "boss-001",
+    "name": "The Corrupted Warden",
+    "chapter": "Chapter 1: The Depths",
+    "difficulty": "2",
+    "phases": ["Normal attack phase", "Enraged phase at 50% health"],
+    "patterns": [
+      "Spawns minions in corners",
+      "Circular bullet spread",
+      "Charge attack toward player",
+      "Ground pound creating shockwaves"
+    ],
+    "strategy": "Focus on clearing minions first to reduce chaos. During the charge attack, move perpendicular to the boss. In the enraged phase, stay mobile and prioritize dodging over attacking. The ground pound is telegraphed - jump or move away when you see the windup.",
+    "image": "/assets/img/placeholders/boss.svg"
+  },
+  {
+    "id": "boss-002",
+    "name": "Spectral Twins",
+    "chapter": "Chapter 2: The Catacombs",
+    "difficulty": "3",
+    "phases": ["Both twins alive", "Single twin remaining"],
+    "patterns": [
+      "Synchronized laser beams",
+      "Alternating dash attacks",
+      "Homing projectile barrage",
+      "Phase-swap teleportation"
+    ],
+    "strategy": "Keep both twins on screen to predict their synchronized attacks. When one dies, the remaining twin becomes faster but more predictable. The laser beams can be dodged by staying between the twins. Save your active items for the single-twin phase.",
+    "image": "/assets/img/placeholders/boss.svg"
+  },
+  {
+    "id": "boss-003",
+    "name": "The Flame Colossus",
+    "chapter": "Chapter 2: The Catacombs",
+    "difficulty": "3",
+    "phases": ["Grounded phase", "Floating fire phase", "Desperate melee phase"],
+    "patterns": [
+      "Fire pillar eruptions",
+      "Flaming rock throws",
+      "Lava pool creation",
+      "Meteor shower from above"
+    ],
+    "strategy": "The floor is as dangerous as the boss - avoid lava pools at all costs. During the floating phase, focus on dodging meteors while getting shots in. In the final melee phase, keep your distance and kite around the room. Fire resistance items trivialize this fight.",
+    "image": "/assets/img/placeholders/boss.svg"
+  },
+  {
+    "id": "boss-004",
+    "name": "The Void Serpent",
+    "chapter": "Chapter 3: The Necropolis",
+    "difficulty": "4",
+    "phases": ["Surface phase", "Underground phase", "Full body emergence"],
+    "patterns": [
+      "Tunnel under and emerge near player",
+      "Void orb projectiles",
+      "Tail whip in circles",
+      "Poison gas clouds"
+    ],
+    "strategy": "Watch for ground ripples to predict where it will emerge. Avoid the center of the room during the tail whip. The poison clouds linger, so keep moving to maintain safe space. High mobility and flight are extremely valuable here.",
+    "image": "/assets/img/placeholders/boss.svg"
+  },
+  {
+    "id": "boss-005",
+    "name": "The Clockwork Horror",
+    "chapter": "Chapter 3: The Necropolis",
+    "difficulty": "4",
+    "phases": ["Mechanical phase", "Overclocked phase", "Breakdown phase"],
+    "patterns": [
+      "Gear projectiles in patterns",
+      "Time-slow field",
+      "Rapid spin attack",
+      "Self-repair healing"
+    ],
+    "strategy": "Deal damage quickly to prevent healing. The time-slow field affects you but not projectiles - stay out of it. During overclock, the boss is faster but more vulnerable. In breakdown phase, exploit the slower attack speed for maximum damage.",
+    "image": "/assets/img/placeholders/boss.svg"
+  },
+  {
+    "id": "boss-006",
+    "name": "The Crystal Monarch",
+    "chapter": "Chapter 4: The Sanctum",
+    "difficulty": "5",
+    "phases": ["Shield phase", "Exposed core", "Crystal storm finale"],
+    "patterns": [
+      "Rotating crystal barriers",
+      "Piercing laser beam",
+      "Crystal minion summoning",
+      "Room-wide shard explosion"
+    ],
+    "strategy": "Focus on breaking shield crystals to expose the core. Ignore minions unless overwhelmed. The laser beam follows you - circle strafe to avoid it. During the finale, focus purely on dodging and get shots in between attacks. This is a marathon, not a sprint.",
+    "image": "/assets/img/placeholders/boss.svg"
+  },
+  {
+    "id": "boss-007",
+    "name": "The Shadow Assassin",
+    "chapter": "Chapter 4: The Sanctum",
+    "difficulty": "5",
+    "phases": ["Stealth phase", "Combat phase", "Desperate shadow clone phase"],
+    "patterns": [
+      "Invisibility with sound cues",
+      "Backstab teleport attacks",
+      "Shadow clone creation",
+      "Smoke bomb disorientation"
+    ],
+    "strategy": "Listen for audio cues during invisibility. When visible, burst damage quickly before it vanishes. Shadow clones have lower health - clear them fast. Keep moving to avoid backstabs. Items that reveal enemies make this fight much easier.",
+    "image": "/assets/img/placeholders/boss.svg"
+  },
+  {
+    "id": "boss-008",
+    "name": "The Ancient Guardian",
+    "chapter": "Chapter 5: The Abyss",
+    "difficulty": "5",
+    "phases": ["Awakening phase", "Full power phase", "Decay phase"],
+    "patterns": [
+      "Stone pillar drops",
+      "Ancient rune explosions",
+      "Petrifying gaze cone",
+      "Ground slam earthquakes"
+    ],
+    "strategy": "Avoid the gaze cone or you'll be slowed significantly. Use pillars as cover but be ready to move when they start glowing. The earthquake makes dodging harder - prioritize positioning. In decay phase, chunks fall off revealing weak points.",
+    "image": "/assets/img/placeholders/boss.svg"
+  },
+  {
+    "id": "boss-009",
+    "name": "The Plague Doctor",
+    "chapter": "Chapter 5: The Abyss",
+    "difficulty": "4",
+    "patterns": [
+      "Poison needle barrage",
+      "Plague gas AOE",
+      "Infected minion summoning",
+      "Syringe dash attack"
+    ],
+    "strategy": "Kill infected minions before they explode. The plague gas lingers - control where it spawns. Dodge the syringe dash sideways. This fight is about area control and positioning. Poison immunity is incredibly strong here.",
+    "image": "/assets/img/placeholders/boss.svg"
+  },
+  {
+    "id": "boss-010",
+    "name": "The Thunder Tyrant",
+    "chapter": "Chapter 6: The Pinnacle",
+    "difficulty": "5",
+    "phases": ["Grounded attacks", "Airborne assaults", "Storm rage finale"],
+    "patterns": [
+      "Lightning strikes",
+      "Electric field generation",
+      "Thunder clap stuns",
+      "Tornado summons"
+    ],
+    "strategy": "The lightning telegraphs where it will strike - watch for glowing circles. Electric fields limit movement - clear them quickly. During airborne phase, the boss is immune but vulnerable after landing. In storm rage, focus on survival and get damage when safe.",
+    "image": "/assets/img/placeholders/boss.svg"
+  },
+  {
+    "id": "boss-011",
+    "name": "The Frozen King",
+    "chapter": "Chapter 6: The Pinnacle",
+    "difficulty": "5",
+    "phases": ["Ice armor phase", "Shattered phase", "Blizzard finale"],
+    "patterns": [
+      "Ice spike eruptions",
+      "Freeze beam tracking",
+      "Icicle rain from ceiling",
+      "Floor freeze wave"
+    ],
+    "strategy": "Fire damage breaks ice armor faster. The freeze beam slows you progressively - don't let it hit multiple times. Keep moving to avoid ice spikes. In shattered phase, the boss moves faster but takes more damage. The blizzard limits visibility - memorize safe zones.",
+    "image": "/assets/img/placeholders/boss.svg"
+  },
+  {
+    "id": "boss-012",
+    "name": "The Flesh Amalgam",
+    "chapter": "Chapter 7: The Depths of Despair",
+    "difficulty": "5",
+    "phases": ["Multiple body parts", "Core exposed", "Regeneration phase", "Desperation"],
+    "patterns": [
+      "Tentacle slams",
+      "Blood projectile spray",
+      "Body part detachment",
+      "Flesh wall creation"
+    ],
+    "strategy": "Destroy all body parts to expose the core. Detached parts act independently - manage them carefully. During regeneration, deal damage quickly to interrupt. The flesh walls block movement but can be destroyed. High tear rate is crucial here.",
+    "image": "/assets/img/placeholders/boss.svg"
+  },
+  {
+    "id": "boss-013",
+    "name": "The Celestial Judge",
+    "chapter": "Chapter 7: The Depths of Despair",
+    "difficulty": "5",
+    "phases": ["Judgment phase", "Purification phase", "Absolution finale"],
+    "patterns": [
+      "Holy light beams",
+      "Divine shield barriers",
+      "Angel summons",
+      "Judgment explosion"
+    ],
+    "strategy": "A test of skill and patience. The holy beams can be dodged but require precise movement. Shields must be broken before damaging the boss. Angels heal the judge - prioritize them. The judgment explosion is survivable with good positioning or defensive items.",
+    "image": "/assets/img/placeholders/boss.svg"
+  },
+  {
+    "id": "boss-014",
+    "name": "The Chaos Entity",
+    "chapter": "Secret Boss",
+    "difficulty": "5",
+    "phases": ["Random phase transitions", "Attack pattern randomization", "Final chaos"],
+    "patterns": [
+      "Unpredictable teleportation",
+      "Random status effects",
+      "Mixed attack combinations",
+      "Reality distortion"
+    ],
+    "strategy": "There is no set strategy - adaptability is key. Learn to recognize attack telegraphs quickly. Status effect immunity helps but isn't necessary. Stay calm and focused despite the chaos. This boss tests everything you've learned. Strong runs have a significant advantage.",
+    "image": "/assets/img/placeholders/boss.svg"
+  },
+  {
+    "id": "boss-015",
+    "name": "The Final Adversary",
+    "chapter": "True Final Boss",
+    "difficulty": "5",
+    "phases": ["Phase 1: Testing", "Phase 2: True power", "Phase 3: Desperation", "Phase 4: Ultimate form"],
+    "patterns": [
+      "Combines previous boss attacks",
+      "Screen-filling bullet patterns",
+      "Environmental hazards",
+      "Overwhelming multitasking requirements"
+    ],
+    "strategy": "This is it - the ultimate challenge. Every skill matters. Prioritize survival over damage. Learn the phase transitions. Use your active items wisely. Strong defensive items are crucial. The fight is long - pace yourself. Pattern recognition is everything. Don't give up - victory is possible!",
+    "image": "/assets/img/placeholders/boss.svg"
+  }
+]

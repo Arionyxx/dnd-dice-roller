@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D&D Dice Roller</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cinzel', serif;
+            background:
+                radial-gradient(ellipse at top, rgba(139, 69, 19, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom, rgba(0, 0, 0, 0.5) 0%, transparent 50%),
+                linear-gradient(180deg, #1a0f0a 0%, #2d1810 50%, #1a0f0a 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(139, 69, 19, 0.03) 2px,
+                    rgba(139, 69, 19, 0.03) 4px
+                );
+            pointer-events: none;
+        }
+
+        .container {
+            background:
+                linear-gradient(145deg, rgba(101, 67, 33, 0.95) 0%, rgba(58, 38, 20, 0.95) 100%);
+            border: 3px solid #8b6914;
+            border-radius: 5px;
+            padding: 40px;
+            box-shadow:
+                0 0 40px rgba(139, 105, 20, 0.4),
+                inset 0 0 60px rgba(0, 0, 0, 0.3),
+                0 20px 60px rgba(0, 0, 0, 0.6);
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px solid rgba(139, 105, 20, 0.3);
+            pointer-events: none;
+        }
+
+        h1 {
+            text-align: center;
+            color: #f4e4c1;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-family: 'MedievalSharp', serif;
+            text-shadow:
+                2px 2px 4px rgba(0, 0, 0, 0.8),
+                0 0 20px rgba(212, 175, 55, 0.5);
+            letter-spacing: 3px;
+        }
+
+        .dice-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .dice-button {
+            background: linear-gradient(145deg, #654321 0%, #4a3219 100%);
+            color: #d4af37;
+            border: 2px solid #8b6914;
+            padding: 20px 10px;
+            border-radius: 3px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow:
+                0 4px 8px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(212, 175, 55, 0.2);
+            font-family: 'Cinzel', serif;
+        }
+
+        .dice-button:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 6px 12px rgba(0, 0, 0, 0.7),
+                0 0 15px rgba(212, 175, 55, 0.3),
+                inset 0 1px 0 rgba(212, 175, 55, 0.3);
+            border-color: #d4af37;
+        }
+
+        .dice-button.selected {
+            background: linear-gradient(145deg, #8b6914 0%, #654321 100%);
+            border-color: #d4af37;
+            color: #f4e4c1;
+            box-shadow:
+                0 0 20px rgba(212, 175, 55, 0.6),
+                inset 0 0 10px rgba(212, 175, 55, 0.3);
+            transform: scale(1.05);
+        }
+
+        .dice-display {
+            text-align: center;
+            margin: 40px 0;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dice {
+            width: 150px;
+            height: 150px;
+            background: #f4e8d8;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 4em;
+            font-weight: bold;
+            color: #1a0f0a;
+            box-shadow:
+                0 15px 35px rgba(0, 0, 0, 0.7),
+                inset 2px 2px 4px rgba(0, 0, 0, 0.2),
+                inset -2px -2px 4px rgba(255, 255, 255, 0.4);
+            margin-bottom: 20px;
+            border: 1px solid #c4b5a0;
+            font-family: 'MedievalSharp', serif;
+            position: relative;
+        }
+
+        .dice::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 6px;
+            pointer-events: none;
+        }
+
+        .dice.rolling {
+            animation: roll 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes roll {
+            0%, 100% {
+                transform: rotate(0deg) scale(1);
+            }
+            15% {
+                transform: rotate(120deg) scale(1.15) translateY(-20px);
+            }
+            30% {
+                transform: rotate(240deg) scale(0.9) translateY(10px);
+            }
+            45% {
+                transform: rotate(360deg) scale(1.1) translateY(-15px);
+            }
+            60% {
+                transform: rotate(480deg) scale(0.95) translateY(5px);
+            }
+            75% {
+                transform: rotate(600deg) scale(1.05) translateY(-5px);
+            }
+            90% {
+                transform: rotate(720deg) scale(0.98);
+            }
+        }
+
+        .result-text {
+            font-size: 1.3em;
+            color: #f4e4c1;
+            font-weight: bold;
+            margin-top: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .roll-button {
+            background: linear-gradient(145deg, #8b2500 0%, #5a1800 100%);
+            color: #f4e4c1;
+            border: 3px solid #d4af37;
+            padding: 20px 60px;
+            border-radius: 5px;
+            font-size: 1.5em;
+            font-weight: bold;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+            box-shadow:
+                0 8px 20px rgba(0, 0, 0, 0.7),
+                inset 0 2px 0 rgba(212, 175, 55, 0.3),
+                0 0 30px rgba(139, 37, 0, 0.4);
+            transition: all 0.3s ease;
+            font-family: 'MedievalSharp', serif;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .roll-button:hover {
+            transform: translateY(-3px);
+            box-shadow:
+                0 12px 30px rgba(0, 0, 0, 0.8),
+                inset 0 2px 0 rgba(212, 175, 55, 0.4),
+                0 0 40px rgba(212, 175, 55, 0.5);
+            border-color: #f4e4c1;
+        }
+
+        .roll-button:active {
+            transform: translateY(-1px);
+        }
+
+        .roll-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .history {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid rgba(139, 105, 20, 0.5);
+            box-shadow: 0 -1px 0 rgba(212, 175, 55, 0.2);
+        }
+
+        .history h3 {
+            color: #d4af37;
+            margin-bottom: 15px;
+            text-align: center;
+            font-family: 'MedievalSharp', serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            letter-spacing: 2px;
+        }
+
+        .history-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .history-item {
+            background: linear-gradient(145deg, #4a3219 0%, #2d1e10 100%);
+            color: #d4af37;
+            padding: 10px 15px;
+            border-radius: 3px;
+            font-weight: bold;
+            animation: fadeIn 0.3s ease-in;
+            border: 1px solid #8b6914;
+            box-shadow:
+                0 2px 6px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(212, 175, 55, 0.1);
+            font-family: 'Cinzel', serif;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .dice-label {
+            text-align: center;
+            font-size: 1.2em;
+            color: #d4af37;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-family: 'Cinzel', serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚔ The Tavern Dice ⚔</h1>
+
+        <div class="dice-selector">
+            <button class="dice-button" data-sides="4">D4</button>
+            <button class="dice-button selected" data-sides="6">D6</button>
+            <button class="dice-button" data-sides="8">D8</button>
+            <button class="dice-button" data-sides="10">D10</button>
+            <button class="dice-button" data-sides="12">D12</button>
+            <button class="dice-button" data-sides="20">D20</button>
+        </div>
+
+        <div class="dice-display">
+            <div class="dice-label">Selected: D6</div>
+            <div class="dice" id="dice">?</div>
+            <div class="result-text" id="result">Roll the dice!</div>
+        </div>
+
+        <button class="roll-button" id="rollButton">ROLL!</button>
+
+        <div class="history">
+            <h3>Roll History</h3>
+            <div class="history-list" id="historyList"></div>
+        </div>
+    </div>
+
+    <script>
+        let selectedDice = 6;
+        let isRolling = false;
+        const history = [];
+
+        const diceButtons = document.querySelectorAll('.dice-button');
+        const diceElement = document.getElementById('dice');
+        const resultElement = document.getElementById('result');
+        const rollButton = document.getElementById('rollButton');
+        const historyList = document.getElementById('historyList');
+        const diceLabel = document.querySelector('.dice-label');
+
+        // Dice selection
+        diceButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                if (isRolling) return;
+
+                diceButtons.forEach(btn => btn.classList.remove('selected'));
+                button.classList.add('selected');
+                selectedDice = parseInt(button.dataset.sides);
+                diceLabel.textContent = `Selected: D${selectedDice}`;
+                diceElement.textContent = '?';
+                resultElement.textContent = 'Roll the dice!';
+            });
+        });
+
+        // Roll animation and logic
+        rollButton.addEventListener('click', () => {
+            if (isRolling) return;
+
+            isRolling = true;
+            rollButton.disabled = true;
+            diceElement.classList.add('rolling');
+            resultElement.textContent = 'Rolling...';
+
+            // Animate through random numbers
+            let count = 0;
+            const interval = setInterval(() => {
+                diceElement.textContent = Math.floor(Math.random() * selectedDice) + 1;
+                count++;
+
+                if (count >= 10) {
+                    clearInterval(interval);
+
+                    // Final result
+                    setTimeout(() => {
+                        const result = Math.floor(Math.random() * selectedDice) + 1;
+                        diceElement.textContent = result;
+                        diceElement.classList.remove('rolling');
+
+                        // Check for critical rolls
+                        let message = `You rolled a ${result}!`;
+                        if (result === selectedDice) {
+                            message = `🎉 CRITICAL! You rolled a ${result}! 🎉`;
+                        } else if (result === 1) {
+                            message = `💀 Critical Fail! You rolled a 1! 💀`;
+                        }
+
+                        resultElement.textContent = message;
+
+                        // Add to history
+                        addToHistory(selectedDice, result);
+
+                        isRolling = false;
+                        rollButton.disabled = false;
+                    }, 300);
+                }
+            }, 60);
+        });
+
+        function addToHistory(diceType, result) {
+            history.unshift({ dice: diceType, result: result });
+            if (history.length > 10) {
+                history.pop();
+            }
+
+            historyList.innerHTML = history.map(item =>
+                `<div class="history-item">D${item.dice}: ${item.result}</div>`
+            ).join('');
+        }
+
+        // Allow Enter key to roll
+        document.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !isRolling) {
+                rollButton.click();
+            }
+        });
+    </script>
+</body>
+</html>

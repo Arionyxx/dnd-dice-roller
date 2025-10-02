@@ -1,0 +1,132 @@
+[
+  {
+    "id": "guide-001",
+    "title": "Beginner's Guide to Survival",
+    "sections": [
+      {
+        "heading": "Understanding the Basics",
+        "content": "Welcome to your first run! This game is a roguelike, which means each run is different and death is permanent. Your goal is to descend through multiple floors, defeating enemies and bosses while collecting items that make you stronger. Don't be discouraged by early deaths - learning enemy patterns and item effects is part of the journey."
+      },
+      {
+        "heading": "Health Management",
+        "content": "Health comes in two types: Red Hearts and Soul Hearts. Red Hearts are your standard health, while Soul Hearts provide extra protection that doesn't affect Devil Deal chances. Always prioritize not getting hit over dealing damage. Each hit matters, especially in early floors. Look for heart pickups after clearing rooms, and don't be afraid to backtrack for health if needed."
+      },
+      {
+        "heading": "Resource Collection",
+        "content": "Coins, keys, and bombs are your main resources. Coins let you buy items from shops, keys open chests and doors, bombs destroy obstacles and can reveal secret rooms. Always explore the entire floor before moving to the next - missing resources early can hurt you later. Check walls for secret rooms by bombing suspicious-looking walls."
+      },
+      {
+        "heading": "Combat Fundamentals",
+        "content": "Movement is more important than shooting. Your tears auto-aim in the direction you're facing, so focus on dodging enemy attacks while maintaining line of sight. Learn enemy patterns - each enemy type has predictable behavior. Clear rooms methodically rather than rushing. Take your time - there's no time limit."
+      },
+      {
+        "heading": "Item Strategy",
+        "content": "Not all items are created equal. Some items synergize well together, while others may have negative effects. Pay attention to your stats after picking up items. If you see red text, it might be a downside. However, many seemingly bad items can become powerful with the right synergies. Experiment and learn!"
+      }
+    ]
+  },
+  {
+    "id": "guide-002",
+    "title": "Advanced Combat Tactics",
+    "sections": [
+      {
+        "heading": "Room Positioning",
+        "content": "Always enter rooms carefully and position yourself advantageously. Stay near the entrance when possible - it gives you an escape route and more room to dodge. For rooms with many enemies, clear from the entrance inward. For rooms with few strong enemies, circle strafe around the perimeter. Position yourself so enemies line up for your tears."
+      },
+      {
+        "heading": "Boss Fight Preparation",
+        "content": "Before entering a boss room, make sure you're at full health if possible. Clear the entire floor first to gather resources and maximize your power. Know what the boss does before entering - check guides if needed. Save powerful active items for boss fights. If you have limited resources, use them in boss fights rather than normal rooms."
+      },
+      {
+        "heading": "Dodging Techniques",
+        "content": "Master the art of weaving between projectiles. Most bullet patterns have gaps - find them. Use your speed to your advantage. Circle strafing works against many bosses. Practice micro-dodging - small movements can avoid hits while maintaining fire. Don't panic when screens fill with bullets - stay calm and look for safe spots."
+      },
+      {
+        "heading": "Active Item Usage",
+        "content": "Active items can turn impossible situations into wins. Don't hoard charges - use them when they'll make a difference. Some actives are better for clearing rooms, others for bosses. Learn what your active item does and when it's most effective. Recharge by clearing rooms, so use it liberally between bosses."
+      },
+      {
+        "heading": "Dealing with Special Enemies",
+        "content": "Some enemies require special tactics. Flying enemies need different positioning. Fast enemies need prediction. Tanky enemies need patience. Learn enemy priorities - kill the most dangerous threats first. Some enemies spawn others - kill the spawner first. Use room geometry to your advantage - break line of sight when needed."
+      }
+    ]
+  },
+  {
+    "id": "guide-003",
+    "title": "Item Synergy Masterclass",
+    "sections": [
+      {
+        "heading": "Understanding Synergies",
+        "content": "Synergies occur when two or more items interact in special ways, often creating effects more powerful than the sum of their parts. Learning which items work well together is key to creating winning runs. Some synergies are obvious, others are subtle. Experimentation is the best teacher, but guides like this can accelerate your learning."
+      },
+      {
+        "heading": "Damage Multipliers",
+        "content": "Items that multiply damage are more valuable than items that add flat damage when you already have high base damage. Stack damage multipliers to create exponential power growth. Combine tear effects with damage boosts for maximum impact. Remember: a 2x damage multiplier with 10 base damage deals more than 15 flat damage."
+      },
+      {
+        "heading": "Tear Effect Stacking",
+        "content": "Many tear effects can stack or combine. Piercing plus spectral tears means you shoot through everything. Homing plus high tear rate creates a bullet storm. Poison plus high tear rate means everything gets poisoned fast. Explosive tears plus cluster bombs creates room-clearing chaos. Experiment with combinations!"
+      },
+      {
+        "heading": "Defensive Synergies",
+        "content": "Offense wins runs, but defense keeps you alive to use it. Orbital items plus blocking items create a defensive shell. Soul hearts plus health-based damage boosts give you power without risk. Flight plus long range keeps you safe. Build defense early, then add offense. Dead players deal zero damage."
+      },
+      {
+        "heading": "Building Winning Combinations",
+        "content": "Successful runs build toward a win condition. Identify your strengths early and lean into them. If you find a powerful item, look for synergies that enhance it. Don't dilute your build with conflicting items. Sometimes passing on a good item is correct if it doesn't fit your build. Focus beats randomness."
+      }
+    ]
+  },
+  {
+    "id": "guide-004",
+    "title": "Floor Navigation and Secrets",
+    "sections": [
+      {
+        "heading": "Efficient Floor Exploration",
+        "content": "Clear every room on every floor. Use a systematic approach - clear one direction, then another. This ensures you don't miss any rooms. Mark cleared rooms mentally or on paper. Check your map frequently. Some rooms only appear if you explore thoroughly. The extra items and resources are always worth it."
+      },
+      {
+        "heading": "Finding Secret Rooms",
+        "content": "Secret rooms spawn adjacent to at least two normal rooms, often three or more. Common locations: next to treasure rooms, shops, or the boss room. Bombing suspicious walls reveals them. Listen for different sound effects when placing bombs near secret room walls. Secret rooms contain powerful items - finding them is crucial."
+      },
+      {
+        "heading": "Special Room Strategy",
+        "content": "Treasure rooms offer random items - always visit them. Shops require coins but have consistent useful items. Angel/Devil rooms offer powerful items but may have costs. Libraries provide knowledge and active items. Sacrifice rooms trade health for rewards. Curse rooms require keys but contain good loot. Prioritize based on your current build and resources."
+      },
+      {
+        "heading": "When to Skip Rooms",
+        "content": "Sometimes skipping rooms is correct. If you're at low health and a room looks dangerous, skip it. If you have the boss key and need to fight the boss before time runs out, skip normal rooms. If you're looking for a specific special room, you might skip normal rooms to find it faster. But generally, clear everything."
+      },
+      {
+        "heading": "Boss Rush and Timed Challenges",
+        "content": "Some floors have timed challenges. Boss Rush requires reaching it within a certain number of rooms cleared. These challenges offer great rewards but require efficient play. Practice fast room clearing. Skip less valuable rooms if needed. Plan your path through the floor. The rewards make it worth the risk."
+      }
+    ]
+  },
+  {
+    "id": "guide-005",
+    "title": "Character-Specific Strategies",
+    "sections": [
+      {
+        "heading": "Playing to Character Strengths",
+        "content": "Each character has unique stats and starting items that suggest a playstyle. The Wanderer is balanced and flexible. The Gambler needs risk-taking. The Paladin can tank hits. The Shadow must dodge everything. The Berserker requires aggression. Match your playstyle to your character for better results."
+      },
+      {
+        "heading": "Compensating for Weaknesses",
+        "content": "Every character has weaknesses. Low health characters need defensive items. Slow characters need speed upgrades. Low damage characters need offensive items. Identify your character's weakness and prioritize items that fix it. A balanced character is often stronger than an extreme specialist."
+      },
+      {
+        "heading": "Unlock Strategies",
+        "content": "Each character has specific unlock conditions. Read them carefully and plan runs around them. Some unlocks require reaching certain floors, others require playing certain ways. Some unlocks are easier with specific items. Don't be afraid to restart runs that won't achieve your unlock goal. Focused attempts beat random hoping."
+      },
+      {
+        "heading": "Advanced Character Tactics",
+        "content": "Experienced players can leverage character quirks for advantage. The Gambler can reroll bad situations. The Paladin can trade health for powerful Devil Deals. The Shadow can access hard-to-reach areas easily. The Berserker's low health is actually their strength. Master your character to master the game."
+      },
+      {
+        "heading": "Character Selection Tips",
+        "content": "Choose characters based on your goal. Need a safe run? Pick The Paladin or Guardian. Want excitement? Try The Gambler or Trickster. Learning mechanics? Start with The Wanderer. Going for specific unlocks? Pick the character that enables it. Match character to objective, not just preference."
+      }
+    ]
+  }
+]

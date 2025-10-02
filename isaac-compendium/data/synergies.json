@@ -1,0 +1,82 @@
+[
+  {
+    "id": "syn-001",
+    "name": "Crimson Thunder",
+    "items": ["Crimson Shard", "Thunder Strike"],
+    "tags": ["damage", "chain", "powerful"],
+    "effect": "Triple tears each create chain lightning on hit",
+    "details": "A devastating combination that turns the Crimson Shard's three-way split into nine potential chain lightning procs. Entire rooms can be cleared with a single volley. The damage output scales exponentially with enemy density, making this one of the strongest synergies for crowded encounters."
+  },
+  {
+    "id": "syn-002",
+    "name": "Toxic Overload",
+    "items": ["Poison Vial", "Flame Aura"],
+    "tags": ["poison", "fire", "damage-over-time"],
+    "effect": "Poison clouds ignite, creating burning toxic clouds",
+    "details": "The Poison Vial's clouds become infused with flames from the Flame Aura, dealing both poison and burn damage simultaneously. The burning effect causes the clouds to last longer and spread to nearby enemies. Extremely effective for room control and boss fights, as the damage stacks indefinitely."
+  },
+  {
+    "id": "syn-003",
+    "name": "Celestial Defense Matrix",
+    "items": ["Celestial Orb", "Mirror Shield"],
+    "tags": ["defense", "reflect", "survival"],
+    "effect": "Orbital reflects all projectiles it blocks",
+    "details": "Transforms the Celestial Orb from a simple blocker into an offensive weapon. Every projectile blocked is reflected back at enemies, turning bullet-hell patterns into opportunities. Combined with the Mirror Shield's reflection chance, you become nearly immune to ranged attacks while dealing significant counter-damage."
+  },
+  {
+    "id": "syn-004",
+    "name": "Berserker's Gambit",
+    "items": ["Berserker Rage", "Cursed Skull"],
+    "tags": ["risk", "damage", "chaos"],
+    "effect": "Teleportation maintains Berserker Rage buff and triggers it if not active",
+    "details": "The Cursed Skull's teleportation normally breaks damage buffs, but this synergy maintains Berserker Rage across teleports. Additionally, if you're teleported above half health, you'll temporarily gain the Berserker Rage buff anyway. High risk meets high reward in this unpredictable combination."
+  },
+  {
+    "id": "syn-005",
+    "name": "Temporal Mastery",
+    "items": ["Crystal Hourglass", "Chaos Dice"],
+    "tags": ["utility", "reroll", "time"],
+    "effect": "Rewind time and reroll items simultaneously",
+    "details": "Using either active item triggers both effects. You can rewind mistakes AND reroll bad items at the same time. This essentially gives you unlimited attempts at getting perfect item spawns. The synergy refreshes both charges faster, making it incredibly powerful for optimization-focused players."
+  },
+  {
+    "id": "syn-006",
+    "name": "Ethereal Storm",
+    "items": ["Ethereal Cloak", "Thunder Strike"],
+    "tags": ["spectral", "chain", "mobility"],
+    "effect": "Chain lightning passes through walls to hit hidden enemies",
+    "details": "The spectral property from Ethereal Cloak allows Thunder Strike's chain lightning to jump through walls and obstacles. You can damage enemies in adjacent rooms, clear secret room entrances, and hit bosses before entering their room. This scout-and-damage playstyle is unique and highly strategic."
+  },
+  {
+    "id": "syn-007",
+    "name": "Holy Constellation",
+    "items": ["Sacred Tears", "Celestial Orb"],
+    "tags": ["holy", "orbital", "damage"],
+    "effect": "Orbital creates holy light bursts when hitting enemies",
+    "details": "Every time your Celestial Orb damages an enemy through contact, it has a chance to trigger Sacred Tears' holy light burst. Since the orbital constantly rotates, you're generating multiple burst opportunities per second. The combined defense and offense makes you nearly unstoppable in close quarters."
+  },
+  {
+    "id": "syn-008",
+    "name": "Magnetic Fortune",
+    "items": ["Magnetic Ring", "Lucky Coin"],
+    "tags": ["money", "utility", "economy"],
+    "effect": "Coins pulled by magnetism have doubled chance to spawn additional coins",
+    "details": "The magnetism makes you collect coins faster, and Lucky Coin's duplication effect triggers more often due to the higher collection rate. This creates an economy loop where money generates more money exponentially. You'll never worry about shop purchases again."
+  },
+  {
+    "id": "syn-009",
+    "name": "Arcane Arsenal",
+    "items": ["Tome of Shadows", "Ancient Scroll"],
+    "tags": ["active", "knowledge", "power"],
+    "effect": "Both active items can be charged simultaneously and used together",
+    "details": "Holding two book-type active items lets you use them in combination. Map the floor with Tome of Shadows, then get damage buff from Ancient Scroll for tough rooms. The shared recharge means using one charges both, effectively giving you two actives for the price of one."
+  },
+  {
+    "id": "syn-010",
+    "name": "Dimensional Chaos",
+    "items": ["Dimensional Key", "Chaos Dice"],
+    "tags": ["portal", "reroll", "insanity"],
+    "effect": "Portals lead to rooms with rerolled items automatically",
+    "details": "The ultimate RNG manipulation combo. Every portal you create leads to a room where all items are automatically rerolled. You can farm perfect items by repeatedly creating portals and checking the results. The recharge rate is shared, so you can cycle this quickly. Insanely powerful but requires luck to find both items."
+  }
+]
