@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://isaac-compendium.example.com/sitemap.xml
