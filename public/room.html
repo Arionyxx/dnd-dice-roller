@@ -365,6 +365,77 @@
             background: rgba(26, 15, 10, 0.4);
             border-radius: 3px;
             border-left: 3px solid #d4af37;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-item.admin {
+            border-left-color: #f4e4c1;
+            background: rgba(212, 175, 55, 0.15);
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .user-action-btn {
+            background: rgba(139, 37, 0, 0.6);
+            border: 1px solid #8b2500;
+            color: #f4e4c1;
+            padding: 3px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.75em;
+            transition: all 0.2s ease;
+        }
+
+        .user-action-btn:hover {
+            background: rgba(139, 37, 0, 0.9);
+            border-color: #d4af37;
+        }
+
+        .invite-btn {
+            background: linear-gradient(145deg, #654321 0%, #4a3219 100%);
+            color: #d4af37;
+            border: 2px solid #8b6914;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            font-size: 0.9em;
+            margin-top: 10px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .invite-btn:hover {
+            border-color: #d4af37;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        .cooldown-notice {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(139, 37, 0, 0.95);
+            border: 3px solid #d4af37;
+            padding: 20px 40px;
+            border-radius: 5px;
+            color: #f4e4c1;
+            font-family: 'Cinzel', serif;
+            font-size: 1.2em;
+            z-index: 1000;
+            animation: shake 0.3s ease;
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.6);
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+            25% { transform: translate(-50%, -50%) rotate(-5deg); }
+            75% { transform: translate(-50%, -50%) rotate(5deg); }
         }
 
         .activity-feed {
@@ -465,6 +536,7 @@
         <div class="sidebar">
             <div class="users-panel">
                 <h3 class="panel-title">Party Members</h3>
+                <button class="invite-btn" id="invite-btn">📜 Copy Invite Link</button>
                 <ul class="user-list" id="user-list"></ul>
             </div>
 
@@ -474,6 +546,11 @@
             </div>
         </div>
     </div>
+
+    <!-- Sound effects -->
+    <audio id="roll-sound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1fLMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTKN0fPTgjMGHm7A7+OZTA0PTKLP8+t0IQU9ltv13pxKCRRrufHmq1oNBz2S0fPQezgGJXXE7+ecVhELTKXh86pmGwU5j9TzzYEyBSZ1xO/mnlgRCkmi3/PfdSgFMY7T8tqCNAYocsTu55xYEgpJoN/04HYpBjCN0fPagzYGJ3LE7+KbWhMKR6Dd9N9zJwYxjdDy3IM1Byd0xO/hmloVCkee3fTfdykFMo7R8tmENgYncMPw4ptbFglHnt302ngrBzKO0fPZhDcGKHDC8OOZWhgJRZ3c8911KwcyjtHz2oQ4Byh8" type="audio/wav">
+    </audio>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
@@ -503,6 +580,8 @@
 
         let selectedDice = 6;
         let isRolling = false;
+        let isAdmin = false;
+        let roomAdmin = null;
 
         const diceButtons = document.querySelectorAll('.dice-button');
         const diceElement = document.getElementById('dice');
@@ -511,6 +590,8 @@
         const diceLabel = document.querySelector('.dice-label');
         const userList = document.getElementById('user-list');
         const activityFeed = document.getElementById('activity-feed');
+        const inviteBtn = document.getElementById('invite-btn');
+        const rollSound = document.getElementById('roll-sound');
 
         // Dice selection
         diceButtons.forEach(button => {
@@ -550,6 +631,9 @@
                         diceElement.textContent = result;
                         diceElement.classList.remove('rolling');
 
+                        // Play sound
+                        rollSound.play().catch(() => {});
+
                         // Check for critical rolls
                         let message = `You rolled a ${result}!`;
                         if (result === selectedDice) {
@@ -575,8 +659,27 @@
             }, 60);
         });
 
+        // Invite link
+        inviteBtn.addEventListener('click', () => {
+            const inviteUrl = window.location.href;
+            navigator.clipboard.writeText(inviteUrl).then(() => {
+                inviteBtn.textContent = '✓ Link Copied!';
+                setTimeout(() => {
+                    inviteBtn.textContent = '📜 Copy Invite Link';
+                }, 2000);
+            }).catch(() => {
+                alert(`Share this link:\n${inviteUrl}`);
+            });
+        });
+
         // Socket events
-        socket.on('user-joined', ({ username: joinedUser, users }) => {
+        socket.on('room-info', ({ admin, isAdmin: adminStatus }) => {
+            isAdmin = adminStatus;
+            roomAdmin = admin;
+        });
+
+        socket.on('user-joined', ({ username: joinedUser, users, admin }) => {
+            roomAdmin = admin;
             updateUserList(users);
             if (joinedUser !== username) {
                 addActivity(`${joinedUser} joined the tavern`, 'join');
@@ -586,6 +689,20 @@
         socket.on('user-left', ({ username: leftUser, users }) => {
             updateUserList(users);
             addActivity(`${leftUser} left the tavern`, 'leave');
+        });
+
+        socket.on('cooldown', ({ remaining }) => {
+            showCooldownNotice(remaining);
+        });
+
+        socket.on('kicked', ({ message }) => {
+            alert(message);
+            window.location.href = '/';
+        });
+
+        socket.on('banned', ({ message }) => {
+            alert(message);
+            window.location.href = '/';
         });
 
         socket.on('dice-rolled', ({ username: roller, diceType, result }) => {
@@ -615,10 +732,51 @@
         });
 
         function updateUserList(users) {
-            userList.innerHTML = users.map(user =>
-                `<li class="user-item">${user === username ? '👤 ' : ''}${user}</li>`
-            ).join('');
+            userList.innerHTML = users.map(user => {
+                const isCurrentUser = user === username;
+                const isRoomAdmin = user === roomAdmin;
+                const canModerate = isAdmin && !isCurrentUser && !isRoomAdmin;
+
+                return `
+                    <li class="user-item ${isRoomAdmin ? 'admin' : ''}">
+                        <span>
+                            ${isCurrentUser ? '👤 ' : ''}
+                            ${isRoomAdmin ? '👑 ' : ''}
+                            ${user}
+                        </span>
+                        ${canModerate ? `
+                            <div class="user-actions">
+                                <button class="user-action-btn" onclick="kickUser('${user}')">Kick</button>
+                                <button class="user-action-btn" onclick="banUser('${user}')">Ban</button>
+                            </div>
+                        ` : ''}
+                    </li>
+                `;
+            }).join('');
         }
+
+        function showCooldownNotice(seconds) {
+            const notice = document.createElement('div');
+            notice.className = 'cooldown-notice';
+            notice.textContent = `⏳ Wait ${seconds} second${seconds > 1 ? 's' : ''}!`;
+            document.body.appendChild(notice);
+
+            setTimeout(() => {
+                notice.remove();
+            }, 1000);
+        }
+
+        window.kickUser = (targetUsername) => {
+            if (confirm(`Kick ${targetUsername} from the room?`)) {
+                socket.emit('kick-user', { roomId, targetUsername, adminUsername: username });
+            }
+        };
+
+        window.banUser = (targetUsername) => {
+            if (confirm(`Ban ${targetUsername} from the room? They won't be able to rejoin.`)) {
+                socket.emit('ban-user', { roomId, targetUsername, adminUsername: username });
+            }
+        };
 
         function addActivity(message, type, user = null, prepend = true) {
             const item = document.createElement('div');

@@ -21,6 +21,8 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-producti
 // In-memory storage (replace with database in production)
 const users = new Map();
 const rooms = new Map();
+const userCooldowns = new Map(); // Track last roll time per user
+const ROLL_COOLDOWN = 1000; // 1 second cooldown between rolls
 
 app.use(cors());
 app.use(express.json());
@@ -92,28 +94,58 @@ io.on('connection', (socket) => {
         socket.currentRoom = roomId;
 
         if (!rooms.has(roomId)) {
-            rooms.set(roomId, { users: new Set(), rolls: [] });
+            rooms.set(roomId, {
+                users: new Set(),
+                rolls: [],
+                admin: username, // First user is admin
+                bannedUsers: new Set()
+            });
         }
-        rooms.get(roomId).users.add(username);
+
+        const room = rooms.get(roomId);
+
+        // Check if user is banned
+        if (room.bannedUsers.has(username)) {
+            socket.emit('banned', { message: 'You have been banned from this room' });
+            return;
+        }
+
+        room.users.add(username);
 
         // Notify room
         io.to(roomId).emit('user-joined', {
             username,
-            users: Array.from(rooms.get(roomId).users)
+            users: Array.from(room.users),
+            admin: room.admin
         });
 
         // Send recent rolls to new user
-        socket.emit('roll-history', rooms.get(roomId).rolls.slice(-20));
+        socket.emit('roll-history', room.rolls.slice(-20));
+        socket.emit('room-info', { admin: room.admin, isAdmin: username === room.admin });
     });
 
     socket.on('roll-dice', ({ roomId, diceType, result, username }) => {
         if (!rooms.has(roomId)) return;
 
+        // Check cooldown
+        const now = Date.now();
+        const lastRoll = userCooldowns.get(username) || 0;
+        const timeSinceLastRoll = now - lastRoll;
+
+        if (timeSinceLastRoll < ROLL_COOLDOWN) {
+            socket.emit('cooldown', {
+                remaining: Math.ceil((ROLL_COOLDOWN - timeSinceLastRoll) / 1000)
+            });
+            return;
+        }
+
+        userCooldowns.set(username, now);
+
         const rollData = {
             username,
             diceType,
             result,
-            timestamp: Date.now()
+            timestamp: now
         };
 
         rooms.get(roomId).rolls.push(rollData);
@@ -124,6 +156,49 @@ io.on('connection', (socket) => {
         }
 
         io.to(roomId).emit('dice-rolled', rollData);
+    });
+
+    socket.on('kick-user', ({ roomId, targetUsername, adminUsername }) => {
+        const room = rooms.get(roomId);
+        if (!room || room.admin !== adminUsername) return;
+
+        // Find target socket
+        const sockets = io.sockets.sockets;
+        for (let [id, sock] of sockets) {
+            if (sock.username === targetUsername && sock.currentRoom === roomId) {
+                sock.emit('kicked', { message: 'You have been kicked from the room' });
+                sock.leave(roomId);
+                room.users.delete(targetUsername);
+                io.to(roomId).emit('user-left', {
+                    username: targetUsername,
+                    users: Array.from(room.users)
+                });
+                break;
+            }
+        }
+    });
+
+    socket.on('ban-user', ({ roomId, targetUsername, adminUsername }) => {
+        const room = rooms.get(roomId);
+        if (!room || room.admin !== adminUsername) return;
+
+        room.bannedUsers.add(targetUsername);
+        room.users.delete(targetUsername);
+
+        // Kick and ban
+        const sockets = io.sockets.sockets;
+        for (let [id, sock] of sockets) {
+            if (sock.username === targetUsername && sock.currentRoom === roomId) {
+                sock.emit('banned', { message: 'You have been banned from this room' });
+                sock.leave(roomId);
+                break;
+            }
+        }
+
+        io.to(roomId).emit('user-left', {
+            username: targetUsername,
+            users: Array.from(room.users)
+        });
     });
 
     socket.on('disconnect', () => {
